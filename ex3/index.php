@@ -25,11 +25,20 @@ if (empty($_POST['fio'])) {
   $errors = TRUE;
 }
 
-if (empty($_POST['year']) || !is_numeric($_POST['year']) || !preg_match('/^\d+$/', $_POST['year'])) {
-  print('Заполните год.<br/>');
+if (empty($_POST['year'])) {
+  print('Заполните дату.<br/>');
   $errors = TRUE;
 }
 
+if (empty($_POST['email'])) {
+    print('Заполлните электронную почту.<br/>');
+    $errors = TRUE;
+}
+
+if (empty($_POST['email'])) {
+    print('Заполлните электронную почту.<br/>');
+    $errors = TRUE;
+}
 
 // *************
 // Тут необходимо проверить правильность заполнения всех остальных полей.
@@ -58,11 +67,11 @@ catch(PDOException $e){
 }
 
 //  stmt - это "дескриптор состояния".
- 
+
 //  Именованные метки.
 //$stmt = $db->prepare("INSERT INTO test (label,color) VALUES (:label,:color)");
 //$stmt -> execute(['label'=>'perfect', 'color'=>'green']);
- 
+
 //Еще вариант
 /*$stmt = $db->prepare("INSERT INTO users (firstname, lastname, email) VALUES (:firstname, :lastname, :email)");
 $stmt->bindParam(':firstname', $firstname);
