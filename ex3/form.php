@@ -36,19 +36,19 @@
                 </div>
                 <div class="my-3">
                     <label for="bdInput" class="form-label text-body-secondary"><strong>Дата рождения</strong></label>
-                    <input type="date" class="form-control" name="year" id="bdInput"/>
+                    <input type="date" class="form-control" name="date" id="bdInput"/>
                 </div>
                 <div class="my-3">
                     <legend class="col-form-label text-body-secondary"><strong>Пол</strong></legend>
                     <div class="row">
                         <div class="col">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="man" checked>
+                            <input class="form-check-input" type="radio" name="gender" id="gridRadios1" value="m" checked>
                             <label for="genderInput" class="form-label">Мужчина</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="woman">
+                            <input class="form-check-input" type="radio" name="gender" id="gridRadios2" value="w">
                             <label for="genderInput" class="form-label">Женщина</label>
                         </div>
                     </div>
@@ -59,18 +59,18 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <select name="select" class="form-select" size="5" multiple id="manyInput">
-                                <option selected value="o1">Pascal</option>
-                                <option value="o2">C</option>
-                                <option value="o3">C++</option>
-                                <option value="o4">JavaScript</option>
-                                <option value="o5">PHP</option>
-                                <option value="o6">Python</option>
-                                <option value="o7">Java</option>
-                                <option value="o8">Haskel</option>
-                                <option value="o9">Clojure</option>
-                                <option value="o10">Prolog</option>
-                                <option value="o11">Scala</option>
+                            <select name="select[]" class="form-select" size="5" multiple id="manyInput">
+                                <option selected value="1">Pascal</option>
+                                <option value="2">C</option>
+                                <option value="3">C++</option>
+                                <option value="4">JavaScript</option>
+                                <option value="5">PHP</option>
+                                <option value="6">Python</option>
+                                <option value="7">Java</option>
+                                <option value="8">Haskel</option>
+                                <option value="9">Clojure</option>
+                                <option value="10">Prolog</option>
+                                <option value="11">Scala</option>
                             </select>
                         </div>
 
@@ -81,14 +81,14 @@
                     <div class="col-6">
                         <div class="input-group my-3">
                             <span class="input-group-text">Биография</span>
-                            <textarea class="form-control" aria-label="Биография"></textarea>
+                            <textarea name="bio" class="form-control" aria-label="Биография"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-check my-3">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <input class="form-check-input" name="checkbox" type="checkbox" value="y" id="flexCheckDefault">
                             <label class="form-check-label" for="flexCheckDefault">
                                 с контрактом ознакомлен(а)
                             </label>
