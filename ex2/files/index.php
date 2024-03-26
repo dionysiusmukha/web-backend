@@ -25,4 +25,4 @@ else {
 print($v1);
 
 // Если надо выполнить код из другого файла.
-// include('form.php');
+// include('form.html');

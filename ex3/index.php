@@ -5,7 +5,7 @@
         if (!empty($_GET['save'])) {
             print('Спасибо, результаты сохранены.');
         }
-        include('form.php');
+        include('form.html');
         exit();
     }
 
