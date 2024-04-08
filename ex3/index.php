@@ -4,7 +4,7 @@ header('Content-Type: text/html; charset=UTF-8');
 
 $errors = [];
 
-include('config.php');
+include('config_2.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
