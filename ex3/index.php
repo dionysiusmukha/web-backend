@@ -1,7 +1,10 @@
 <?php
+global $user, $pass;
 header('Content-Type: text/html; charset=UTF-8');
 
 $errors = [];
+
+include('config.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -34,8 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if (count($errors) === 0) {
         try {
-            $user = 'u67449';
-            $pass = '4242897';
             $db = new PDO('mysql:host=localhost;dbname=u67449', $user, $pass,
                 [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
