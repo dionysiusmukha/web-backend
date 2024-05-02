@@ -93,7 +93,7 @@ if (!empty($messages)) {
             <div class="row">
                 <div class="col">
                     <div class="form-check my-3">
-                        <input class="form-check-input" name="checkbox" <?php if ($errors['checkbox']) {print 'class="error"';} ?> value="<?php print $values['checkbox']; ?>" type="checkbox" value="y" id="flexCheckDefault">
+                        <input class="form-check-input" name="checkbox" <?php if ($errors['checkbox']) {print 'class="error"';} ?> type="checkbox" id="flexCheckDefault">
                         <label class="form-check-label" for="flexCheckDefault">
                             с контрактом ознакомлен(а)
                         </label>
