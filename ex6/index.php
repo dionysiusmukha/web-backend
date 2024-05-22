@@ -1,7 +1,7 @@
 <?php
-include('config.php');
+include('module.php');
 header('Content-Type: text/html; charset=UTF-8');
-$db = new PDO('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME, DB_USER, DB_PASSWORD, [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
 // В суперглобальном массиве $_SERVER PHP сохраняет некторые заголовки запроса HTTP
 // и другие сведения о клиненте и сервере, например метод текущего запроса $_SERVER['REQUEST_METHOD'].
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -11,9 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     // В суперглобальном массиве $_GET PHP хранит все параметры, переданные в текущем запросе через URL.
     if (!empty($_COOKIE['save'])) {
 
-        setcookie('save', '', 100000);
-        setcookie('login', '', 100000);
-        setcookie('pass', '', 100000);
+        clearLoginCookie();
 
         $messages[] = 'Спасибо, результаты сохранены.';
 
@@ -221,18 +219,11 @@ else{
 
 
     if ($errors) {
-        header('Location: admin.php');
+        header('Location: index.php');
         exit();
     }
     else{
-        setcookie('fio_error', '', 100000);
-        setcookie('tel_error', '', 100000);
-        setcookie('email_error', '', 100000);
-        setcookie('date_of_birth_error', '', 100000);
-        setcookie('gender_error', '', 100000);
-        setcookie('languages_error', '', 100000);
-        setcookie('bio_error', '', 100000);
-        setcookie('checkbox_error', '', 100000);
+        clearErrorCookie();
     }
 
 
@@ -325,5 +316,10 @@ else{
 // Делаем перенаправление.
 // Если запись не сохраняется, но ошибок не видно, то можно закомментировать эту строку чтобы увидеть ошибку.
     setcookie('save', '1');
-    header('Location: ?save=1');
+    if(!empty($_SESSION['admin'])){
+        header('Location: ./admin.php');
+    }
+    else{
+        header('Location: ?save=1');
+    }
 }
