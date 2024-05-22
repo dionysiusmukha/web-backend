@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 <?php
 include('module.php');
 header('Content-Type: text/html; charset=UTF-8');
@@ -324,6 +324,4 @@ else{
         header('Location: ?save=1');
     }
 }
-=======
 
->>>>>>> origin/main
