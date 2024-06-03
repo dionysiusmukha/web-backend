@@ -1,113 +1,97 @@
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="device-width, initial-scale=1.0">
-    <title>Form</title>
-    <style>
-        /* Сообщения об ошибках и поля с ошибками выводим с красным бордюром. */
-        .error {
-            border: 2px solid red;
-        }
-    </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-</head>
-<body style="background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);">
 <?php
-if (!empty($messages)) {
-    print('<div id="messages">');
-    // Выводим все сообщения.
-    foreach ($messages as $message) {
-        print($message);
-    }
-    print('</div>');
+include('config.php');
+
+try {
+    $db = new PDO('mysql:host=' . $host . ';dbname=' . $dbname, $user, $pass, [
+        PDO::ATTR_PERSISTENT => true,
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+    ]);
+} catch (PDOException $e) {
+    print($e->getMessage());
+    exit();
 }
 
-// Далее выводим форму отмечая элементы с ошибками классом error
-// и задавая начальные значения элементов ранее сохраненными.
+$languages = [];
+
+try {
+    $stmt = $db->prepare("SELECT * FROM p_languages;");
+    $stmt->execute();
+    $languages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    print($e->getMessage());
+    exit();
+}
 ?>
-<h1 class="text-center display-1">Форма</h1>
-<div style="height: 800px; width: 800px; margin: auto">
-    <div class="container ">
-        <form class="mx-auto" action="index.php" method="POST">
-            <div class="my-3">
-                <label for="fio" class="form-label text-body-secondary"><strong>ФИО</strong></label>
-                <input type="text" class="form-control" name="fio" <?php if ($errors['fio']) {print 'class="error"';} ?> value="<?php print $values['fio']; ?>" id="fio" placeholder="Муха Денис"/>
-            </div>
-            <div class="my-3">
-                <label for="telInput" class="form-label text-body-secondary"><strong>Телефон</strong></label>
-                <input type="tel" class="form-control" name="tel" <?php if ($errors['tel']) {print 'class="error"';} ?> value="<?php print $values['tel']; ?>" id="telInput" placeholder="79002914644"/>
-            </div>
-            <div class="my-3">
-                <label for="emailInput" class="form-label text-body-secondary"><strong>Эл. Почта</strong></label>
-                <input type="email" class="form-control" name="email" <?php if ($errors['email']) {print 'class="error"';} ?> value="<?php print $values['email']; ?>" id="emailInput" placeholder="denismukha@inbox.ru"/>
-            </div>
-            <div class="my-3">
-                <label for="bdInput" class="form-label text-body-secondary"><strong>Дата рождения</strong></label>
-                <input type="date" class="form-control" name="date" <?php if ($errors['date']) {print 'class="error"';} ?> value="<?php print $values['date']; ?>" id="bdInput"/>
-            </div>
-            <div class="my-3">
-                <legend class="col-form-label text-body-secondary"><strong>Пол</strong></legend>
-                <div class="row">
-                    <div class="col">
-                        <input class="form-check-input" type="radio" name="gender" <?php if ($errors['gender']) {print 'class="error"';} ?> value="m" checked>
-                        <label for="genderInput" class="form-label">Мужчина</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <input class="form-check-input" type="radio" name="gender" <?php if ($errors['gender']) {print 'class="error"';} ?> value="w">
-                        <label for="genderInput" class="form-label">Женщина</label>
-                    </div>
-                </div>
-            </div>
-            <div class="my-3">
-                <div class="row">
-                    <label for="manyInput" class="form-label text-body-secondary"><strong>Любимый язык программирования</strong></label>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <select name="select[]" class="form-select" size="5" multiple id="manyInput <?php if ($errors['select']) {print 'class="error"';} ?> value="<?php print $values['select']; ?>"">
-                        <option selected value="1">Pascal</option>
-                        <option value="2">C</option>
-                        <option value="3">C++</option>
-                        <option value="4">JavaScript</option>
-                        <option value="5">PHP</option>
-                        <option value="6">Python</option>
-                        <option value="7">Java</option>
-                        <option value="8">Haskel</option>
-                        <option value="9">Clojure</option>
-                        <option value="10">Prolog</option>
-                        <option value="11">Scala</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="input-group my-3">
-                        <span class="input-group-text">Биография</span>
-                        <textarea name="bio" <?php if ($errors['bio']) {print 'class="error"';} ?> value="<?php print $values['bio']; ?>" class="form-control" aria-label="Биография"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <div class="form-check my-3">
-                        <input class="form-check-input" name="checkbox" <?php if ($errors['checkbox']) {print 'class="error"';} ?> type="checkbox" id="flexCheckDefault">
-                        <label class="form-check-label" for="flexCheckDefault">
-                            с контрактом ознакомлен(а)
-                        </label>
-                    </div>
-                </div>
-                <div class="col-9">
-                    <div class="my-3">
-                        <button type="submit" class="btn btn-primary mb-3" value="ok">Сохранить</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
+
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Форма</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Форма</h1>
+
+    <?php if (!empty($messages)): ?>
+        <div class="alert alert-danger" role="alert">
+            <?php foreach ($messages as $message): ?>
+                <p><?php echo $message; ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
+    <form id="form1" action="" method="POST">
+        <div class="mb-3">
+            <label for="name" class="form-label">ФИО</label>
+            <input name="fio" id="name" class="form-control <?php if ($errors['fio']) {print 'is-invalid';} ?>" placeholder="Введите ваше имя" value="<?php print $values['fio']; ?>">
+        </div>
+        <div class="mb-3">
+            <label for="tel" class="form-label">Телефон</label>
+            <input type="tel" name="tel" id="tel" class="form-control <?php if ($errors['tel']) {print 'is-invalid';} ?>" placeholder="Введите телефон" value="<?php print $values['tel']; ?>">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Эл. Почта</label>
+            <input name="email" type="email" class="form-control <?php if ($errors['email']) {print 'is-invalid';} ?>" id="email" placeholder="Введите вашу почту" value="<?php print $values['email']; ?>">
+        </div>
+        <div class="mb-3">
+            <label for="dob" class="form-label">Дата рождения</label>
+            <input name="date_of_birth" type="date" class="form-control <?php if ($errors['date_of_birth']) {print 'is-invalid';} ?>" value="<?php print $values['date_of_birth']; ?>">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Пол</label><br>
+            <input type="radio" class="form-check-input <?php if ($errors['gender']) {print 'is-invalid';} ?>" name="gender" id="g1" value="m" <?php if ($values['gender']=='m') {print 'checked';} ?>> Мужчина
+            <input type="radio" class="form-check-input <?php if ($errors['gender']) {print 'is-invalid';} ?>" name="gender" id="g2" value="w" <?php if ($values['gender']=='w') {print 'checked';} ?>> Женщина
+        </div>
+        <div class="mb-3">
+            <label for="mltplslct" class="form-label">Любимый язык программирования</label>
+            <select class="form-control <?php if ($errors['languages']) {print 'is-invalid';} ?>" name="languages[]" id="mltplslct" multiple="multiple">
+                <?php foreach ($languages as $language): ?>
+                    <option value="<?= htmlspecialchars($language['id']); ?>"
+                        <?php if (!empty($values['languages']) && in_array($language['id'], $values['languages'])) {echo 'selected';} ?>>
+                        <?= htmlspecialchars($language['title']); ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="bio" class="form-label">Биография</label>
+            <textarea name="bio" id="bio" rows="5" class="form-control <?php if ($errors['bio']) {print 'is-invalid';} ?>"><?php print $values['bio']; ?></textarea>
+        </div>
+        <div class="mb-3">
+            <input type="checkbox" class="form-check-input <?php if ($errors['checkbox']) {print 'is-invalid';} ?>" id="checkbox" value="1" name="checkbox" <?php if ($values['checkbox']=='1') {print 'checked';} ?>>
+            <label for="checkbox" class="form-check-label">с контрактом ознакомлен (а)</label>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Отправить</button>
+        </div>
+    </form>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
 </body>
 </html>
